@@ -352,6 +352,50 @@ paths:
                 items:
                   $ref: "#/components/schemas/Question"
 
+  /subjects/{subjectId}/attempts:
+    post:
+      operationId: recordAttempts
+      tags: [revision]
+      summary: Record the results of a revision session
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordAttemptsBody"
+      responses:
+        "201":
+          description: Attempts recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordAttemptsResult"
+
+  /subjects/{subjectId}/performance:
+    get:
+      operationId: getSubjectPerformance
+      tags: [revision]
+      summary: Get performance stats and accuracy trend for a subject
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Performance stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectPerformance"
+
   /storage/uploads/request-url:
     post:
       operationId: requestUploadUrl
@@ -565,6 +609,120 @@ components:
         - totalPapers
         - questionsByMarks
         - recentPapers
+
+    RecordAttemptsBody:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        attempts:
+          type: array
+          items:
+            type: object
+            properties:
+              questionId:
+                type: integer
+              correct:
+                type: boolean
+            required:
+              - questionId
+              - correct
+      required:
+        - sessionId
+        - attempts
+
+    RecordAttemptsResult:
+      type: object
+      properties:
+        recorded:
+          type: integer
+        sessionId:
+          type: string
+      required:
+        - recorded
+        - sessionId
+
+    AccuracyByMarks:
+      type: object
+      properties:
+        marks:
+          type: integer
+        accuracy:
+          type: number
+        totalAttempts:
+          type: integer
+      required:
+        - marks
+        - accuracy
+        - totalAttempts
+
+    AccuracyTrendPoint:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        accuracy:
+          type: number
+        sessionId:
+          type: string
+      required:
+        - date
+        - accuracy
+        - sessionId
+
+    SessionPerformance:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        date:
+          type: string
+          format: date-time
+        accuracy:
+          type: number
+        totalQuestions:
+          type: integer
+        correctAnswers:
+          type: integer
+      required:
+        - sessionId
+        - date
+        - accuracy
+        - totalQuestions
+        - correctAnswers
+
+    SubjectPerformance:
+      type: object
+      properties:
+        subjectId:
+          type: integer
+        overallAccuracy:
+          type: number
+        totalAttempts:
+          type: integer
+        totalSessions:
+          type: integer
+        recentSessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SessionPerformance"
+        accuracyByMarks:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccuracyByMarks"
+        accuracyTrend:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccuracyTrendPoint"
+      required:
+        - subjectId
+        - overallAccuracy
+        - totalAttempts
+        - totalSessions
+        - recentSessions
+        - accuracyByMarks
+        - accuracyTrend
 
     RequestUploadUrlBody:
       type: object

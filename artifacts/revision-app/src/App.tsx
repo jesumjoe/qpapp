@@ -8,6 +8,7 @@ import GradeDetail from "./pages/grade-detail";
 import SubjectDetail from "./pages/subject-detail";
 import RevisionMode from "./pages/revision-mode";
 import QuestionBank from "./pages/question-bank";
+import PerformancePage from "./pages/performance";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/subjects/:subjectId" component={SubjectDetail} />
       <Route path="/subjects/:subjectId/revision" component={RevisionMode} />
       <Route path="/subjects/:subjectId/questions" component={QuestionBank} />
+      <Route path="/subjects/:subjectId/performance" component={PerformancePage} />
       <Route component={NotFound} />
     </Switch>
   );

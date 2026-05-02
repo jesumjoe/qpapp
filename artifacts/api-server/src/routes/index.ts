@@ -5,6 +5,7 @@ import subjectsRouter from "./subjects";
 import papersRouter from "./papers";
 import questionsRouter from "./questions";
 import storageRouter from "./storage";
+import performanceRouter from "./performance";
 
 const router: IRouter = Router();
 
@@ -14,5 +15,6 @@ router.use(subjectsRouter);
 router.use(papersRouter);
 router.use(questionsRouter);
 router.use(storageRouter);
+router.use(performanceRouter);
 
 export default router;

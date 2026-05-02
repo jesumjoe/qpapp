@@ -13,7 +13,7 @@ import {
   Paper
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronLeft, Plus, FileText, UploadCloud, BrainCircuit, CheckCircle2, XCircle, AlertCircle, Trash2, ArrowRight } from "lucide-react";
+import { ChevronLeft, Plus, FileText, UploadCloud, BrainCircuit, CheckCircle2, XCircle, AlertCircle, Trash2, ArrowRight, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -66,6 +66,9 @@ export default function SubjectDetail() {
             <div className="flex flex-wrap items-center gap-3">
               <Link href={`/subjects/${id}/questions`} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 <FileText className="mr-2 h-4 w-4" /> Question Bank
+              </Link>
+              <Link href={`/subjects/${id}/performance`} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                <TrendingUp className="mr-2 h-4 w-4" /> Performance
               </Link>
               <Link href={`/subjects/${id}/revision`} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 shadow-sm">
                 <BrainCircuit className="mr-2 h-4 w-4" /> Start Revision Session

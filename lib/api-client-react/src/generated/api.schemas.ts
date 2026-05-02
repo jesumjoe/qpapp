@@ -101,6 +101,51 @@ export interface SubjectStats {
   recentPapers: Paper[];
 }
 
+export type RecordAttemptsBodyAttemptsItem = {
+  questionId: number;
+  correct: boolean;
+};
+
+export interface RecordAttemptsBody {
+  sessionId: string;
+  attempts: RecordAttemptsBodyAttemptsItem[];
+}
+
+export interface RecordAttemptsResult {
+  recorded: number;
+  sessionId: string;
+}
+
+export interface AccuracyByMarks {
+  marks: number;
+  accuracy: number;
+  totalAttempts: number;
+}
+
+export interface AccuracyTrendPoint {
+  date: string;
+  accuracy: number;
+  sessionId: string;
+}
+
+export interface SessionPerformance {
+  sessionId: string;
+  date: string;
+  accuracy: number;
+  totalQuestions: number;
+  correctAnswers: number;
+}
+
+export interface SubjectPerformance {
+  subjectId: number;
+  overallAccuracy: number;
+  totalAttempts: number;
+  totalSessions: number;
+  recentSessions: SessionPerformance[];
+  accuracyByMarks: AccuracyByMarks[];
+  accuracyTrend: AccuracyTrendPoint[];
+}
+
 export interface RequestUploadUrlBody {
   name: string;
   size: number;

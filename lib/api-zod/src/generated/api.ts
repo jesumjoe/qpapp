@@ -262,6 +262,60 @@ export const GetRevisionQuestionsResponse = zod.array(
 );
 
 /**
+ * @summary Record the results of a revision session
+ */
+export const RecordAttemptsParams = zod.object({
+  subjectId: zod.coerce.number(),
+});
+
+export const RecordAttemptsBody = zod.object({
+  sessionId: zod.string(),
+  attempts: zod.array(
+    zod.object({
+      questionId: zod.number(),
+      correct: zod.boolean(),
+    }),
+  ),
+});
+
+/**
+ * @summary Get performance stats and accuracy trend for a subject
+ */
+export const GetSubjectPerformanceParams = zod.object({
+  subjectId: zod.coerce.number(),
+});
+
+export const GetSubjectPerformanceResponse = zod.object({
+  subjectId: zod.number(),
+  overallAccuracy: zod.number(),
+  totalAttempts: zod.number(),
+  totalSessions: zod.number(),
+  recentSessions: zod.array(
+    zod.object({
+      sessionId: zod.string(),
+      date: zod.coerce.date(),
+      accuracy: zod.number(),
+      totalQuestions: zod.number(),
+      correctAnswers: zod.number(),
+    }),
+  ),
+  accuracyByMarks: zod.array(
+    zod.object({
+      marks: zod.number(),
+      accuracy: zod.number(),
+      totalAttempts: zod.number(),
+    }),
+  ),
+  accuracyTrend: zod.array(
+    zod.object({
+      date: zod.coerce.date(),
+      accuracy: zod.number(),
+      sessionId: zod.string(),
+    }),
+  ),
+});
+
+/**
  * @summary Request a presigned upload URL
  */
 export const RequestUploadUrlBody = zod.object({

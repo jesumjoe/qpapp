@@ -26,9 +26,12 @@ import type {
   HealthStatus,
   Paper,
   Question,
+  RecordAttemptsBody,
+  RecordAttemptsResult,
   RequestUploadUrlBody,
   RequestUploadUrlResponse,
   Subject,
+  SubjectPerformance,
   SubjectStats,
 } from "./api.schemas";
 
@@ -1495,6 +1498,185 @@ export function useGetRevisionQuestions<
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetRevisionQuestionsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Record the results of a revision session
+ */
+export const getRecordAttemptsUrl = (subjectId: number) => {
+  return `/api/subjects/${subjectId}/attempts`;
+};
+
+export const recordAttempts = async (
+  subjectId: number,
+  recordAttemptsBody: RecordAttemptsBody,
+  options?: RequestInit,
+): Promise<RecordAttemptsResult> => {
+  return customFetch<RecordAttemptsResult>(getRecordAttemptsUrl(subjectId), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(recordAttemptsBody),
+  });
+};
+
+export const getRecordAttemptsMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof recordAttempts>>,
+    TError,
+    { subjectId: number; data: BodyType<RecordAttemptsBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof recordAttempts>>,
+  TError,
+  { subjectId: number; data: BodyType<RecordAttemptsBody> },
+  TContext
+> => {
+  const mutationKey = ["recordAttempts"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof recordAttempts>>,
+    { subjectId: number; data: BodyType<RecordAttemptsBody> }
+  > = (props) => {
+    const { subjectId, data } = props ?? {};
+
+    return recordAttempts(subjectId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type RecordAttemptsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof recordAttempts>>
+>;
+export type RecordAttemptsMutationBody = BodyType<RecordAttemptsBody>;
+export type RecordAttemptsMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Record the results of a revision session
+ */
+export const useRecordAttempts = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof recordAttempts>>,
+    TError,
+    { subjectId: number; data: BodyType<RecordAttemptsBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof recordAttempts>>,
+  TError,
+  { subjectId: number; data: BodyType<RecordAttemptsBody> },
+  TContext
+> => {
+  return useMutation(getRecordAttemptsMutationOptions(options));
+};
+
+/**
+ * @summary Get performance stats and accuracy trend for a subject
+ */
+export const getGetSubjectPerformanceUrl = (subjectId: number) => {
+  return `/api/subjects/${subjectId}/performance`;
+};
+
+export const getSubjectPerformance = async (
+  subjectId: number,
+  options?: RequestInit,
+): Promise<SubjectPerformance> => {
+  return customFetch<SubjectPerformance>(
+    getGetSubjectPerformanceUrl(subjectId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getGetSubjectPerformanceQueryKey = (subjectId: number) => {
+  return [`/api/subjects/${subjectId}/performance`] as const;
+};
+
+export const getGetSubjectPerformanceQueryOptions = <
+  TData = Awaited<ReturnType<typeof getSubjectPerformance>>,
+  TError = ErrorType<unknown>,
+>(
+  subjectId: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getSubjectPerformance>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetSubjectPerformanceQueryKey(subjectId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getSubjectPerformance>>
+  > = ({ signal }) =>
+    getSubjectPerformance(subjectId, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!subjectId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getSubjectPerformance>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetSubjectPerformanceQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getSubjectPerformance>>
+>;
+export type GetSubjectPerformanceQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get performance stats and accuracy trend for a subject
+ */
+
+export function useGetSubjectPerformance<
+  TData = Awaited<ReturnType<typeof getSubjectPerformance>>,
+  TError = ErrorType<unknown>,
+>(
+  subjectId: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getSubjectPerformance>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetSubjectPerformanceQueryOptions(subjectId, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
