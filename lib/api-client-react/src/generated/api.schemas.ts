@@ -8,3 +8,115 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface Grade {
+  id: number;
+  name: string;
+  /** e.g. "Grade 10", "Semester 3", "Year 2" */
+  level: string;
+  createdAt: string;
+}
+
+export interface CreateGradeBody {
+  name: string;
+  level: string;
+}
+
+export interface Subject {
+  id: number;
+  gradeId: number;
+  name: string;
+  code?: string;
+  createdAt: string;
+}
+
+export interface CreateSubjectBody {
+  name: string;
+  code?: string;
+}
+
+export type PaperExtractionStatus =
+  (typeof PaperExtractionStatus)[keyof typeof PaperExtractionStatus];
+
+export const PaperExtractionStatus = {
+  pending: "pending",
+  processing: "processing",
+  done: "done",
+  failed: "failed",
+} as const;
+
+export interface Paper {
+  id: number;
+  subjectId: number;
+  year: number;
+  title: string;
+  fileObjectPath?: string | null;
+  extractionStatus: PaperExtractionStatus;
+  questionCount: number;
+  createdAt: string;
+}
+
+export interface CreatePaperBody {
+  year: number;
+  title: string;
+  fileObjectPath?: string | null;
+}
+
+export interface Question {
+  id: number;
+  paperId: number;
+  subjectId: number;
+  questionText: string;
+  answerText: string;
+  marks: number;
+  topic?: string | null;
+  createdAt: string;
+}
+
+export type ExtractionResultStatus =
+  (typeof ExtractionResultStatus)[keyof typeof ExtractionResultStatus];
+
+export const ExtractionResultStatus = {
+  done: "done",
+  failed: "failed",
+} as const;
+
+export interface ExtractionResult {
+  paperId: number;
+  questionsExtracted: number;
+  status: ExtractionResultStatus;
+  message?: string | null;
+}
+
+export type SubjectStatsQuestionsByMarksItem = {
+  marks: number;
+  count: number;
+};
+
+export interface SubjectStats {
+  subjectId: number;
+  totalQuestions: number;
+  totalPapers: number;
+  questionsByMarks: SubjectStatsQuestionsByMarksItem[];
+  recentPapers: Paper[];
+}
+
+export interface RequestUploadUrlBody {
+  name: string;
+  size: number;
+  contentType: string;
+}
+
+export interface RequestUploadUrlResponse {
+  uploadURL: string;
+  objectPath: string;
+}
+
+export type GetRevisionQuestionsParams = {
+  subjectId: number;
+  count?: number;
+  /**
+   * Comma-separated list of mark values to filter by (e.g. "1,2,5")
+   */
+  marksFilter?: string;
+};
