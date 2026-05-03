@@ -15,22 +15,23 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2
+      staggerChildren: 0.1,
+      delayChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { y: 30, opacity: 0, scale: 0.95 },
+  hidden: { y: 40, opacity: 0, scale: 0.9 },
   visible: {
     y: 0,
     opacity: 1,
     scale: 1,
     transition: {
       type: "spring" as const,
-      stiffness: 100,
-      damping: 15
+      stiffness: 80,
+      damping: 12,
+      mass: 0.8
     }
   }
 };
@@ -57,10 +58,10 @@ export default function Dashboard() {
             <span>Academic Intelligence</span>
           </div>
           <div>
-            <h1 className="text-5xl md:text-7xl font-bold font-serif tracking-tighter leading-none kinetic-text">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold font-serif tracking-tighter leading-none kinetic-text">
               Workspace
             </h1>
-            <p className="text-muted-foreground text-lg mt-4 max-w-md leading-relaxed font-medium">
+            <p className="text-muted-foreground text-sm sm:text-lg mt-4 max-w-md leading-relaxed font-medium">
               Your personalized academic command center. Organized, insightful, and powered by AI.
             </p>
           </div>
@@ -88,7 +89,7 @@ export default function Dashboard() {
               dueCount !== undefined && dueCount > 0 ? "border-primary/20 bg-primary/5" : "opacity-80"
             )}
           >
-            <div className="absolute -right-8 -bottom-8 p-8 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity pointer-events-none -rotate-12 translate-x-1/4 scale-150">
+            <div className="absolute -right-8 -bottom-8 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none -rotate-12 translate-x-1/4 scale-150 duration-700">
               <Clock size={160} />
             </div>
             
@@ -166,7 +167,13 @@ export default function Dashboard() {
               className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
               {grades?.map((grade, index) => (
-                <motion.div key={grade.id} variants={itemVariants}>
+                <motion.div 
+                  key={grade.id} 
+                  variants={itemVariants}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
                   <Link href={`/grades/${grade.id}`} className="group block h-full">
                     <div className={cn(
                       "bento-card h-full relative overflow-hidden",

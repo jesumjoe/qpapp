@@ -64,35 +64,35 @@
 }
 
 :root {
-  /* Cinematic Light Theme - Tinted Neutrals */
-  --background: oklch(99% 0.002 45); /* Almost white, slightly warm */
-  --foreground: oklch(20% 0.015 250); /* Deep midnight blue-gray */
-  --border: oklch(94% 0.005 250);
-  --input: oklch(94% 0.005 250);
-  --ring: oklch(55% 0.18 250);
+  /* Cinematic Theme - Cream Primary, Maroon Secondary */
+  --background: #260707; /* Darkest Maroon Background */
+  --foreground: #FAF1EC; /* Cream Text */
+  --border: #4E0911;
+  --input: #4E0911;
+  --ring: #FAF1EC;
   
-  --card: oklch(100% 0 0);
-  --card-foreground: oklch(20% 0.015 250);
-  --card-border: oklch(96% 0.003 250);
+  --card: #310909; /* Slightly elevated dark maroon */
+  --card-foreground: #FAF1EC;
+  --card-border: #4E0911;
   
-  --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(20% 0.015 250);
-  --popover-border: oklch(94% 0.005 250);
+  --popover: #310909;
+  --popover-foreground: #FAF1EC;
+  --popover-border: #4E0911;
   
-  --primary: oklch(50% 0.16 250); /* Vibrant Cinematic Blue */
-  --primary-foreground: oklch(99% 0.005 250);
+  --primary: #FAF1EC; /* Cream Primary */
+  --primary-foreground: #260707; /* Darkest Maroon text on Cream */
   
-  --secondary: oklch(85% 0.08 180); /* Muted Teal/Sage */
-  --secondary-foreground: oklch(25% 0.04 180);
+  --secondary: #4E0911; /* Maroon Secondary */
+  --secondary-foreground: #FAF1EC; /* Cream text on Maroon */
   
-  --muted: oklch(96% 0.005 250);
-  --muted-foreground: oklch(55% 0.015 250);
+  --muted: #4E0911;
+  --muted-foreground: #E4CEC2; /* Beige muted text */
   
-  --accent: oklch(92% 0.02 250);
-  --accent-foreground: oklch(20% 0.015 250);
+  --accent: #4E0911;
+  --accent-foreground: #FAF1EC;
   
-  --destructive: oklch(55% 0.22 25);
-  --destructive-foreground: oklch(100% 0 0);
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
   
   --app-font-sans: 'Plus Jakarta Sans', sans-serif;
   --app-font-serif: 'Instrument Serif', serif;
@@ -102,32 +102,32 @@
 }
 
 .dark {
-  /* Cinematic Dark Theme */
-  --background: oklch(14% 0.015 250);
-  --foreground: oklch(92% 0.01 250);
-  --border: oklch(22% 0.02 250);
-  --input: oklch(22% 0.02 250);
-  --ring: oklch(60% 0.18 250);
+  /* Cinematic Alternate - Lighter Cream Background */
+  --background: #FAF1EC;
+  --foreground: #260707;
+  --border: #E4CEC2;
+  --input: #E4CEC2;
+  --ring: #4E0911;
   
-  --card: oklch(17% 0.02 250);
-  --card-foreground: oklch(92% 0.01 250);
-  --card-border: oklch(20% 0.02 250);
+  --card: #ffffff;
+  --card-foreground: #260707;
+  --card-border: #E4CEC2;
   
-  --popover: oklch(17% 0.02 250);
-  --popover-foreground: oklch(92% 0.01 250);
-  --popover-border: oklch(20% 0.02 250);
+  --popover: #ffffff;
+  --popover-foreground: #260707;
+  --popover-border: #E4CEC2;
   
-  --primary: oklch(65% 0.18 250);
-  --primary-foreground: oklch(10% 0.015 250);
+  --primary: #4E0911; /* Maroon Primary in light mode */
+  --primary-foreground: #FAF1EC;
   
-  --secondary: oklch(35% 0.08 180);
-  --secondary-foreground: oklch(90% 0.04 180);
+  --secondary: #905F66;
+  --secondary-foreground: #FAF1EC;
   
-  --muted: oklch(20% 0.02 250);
-  --muted-foreground: oklch(65% 0.015 250);
+  --muted: #E4CEC2;
+  --muted-foreground: #905F66;
   
-  --accent: oklch(22% 0.03 250);
-  --accent-foreground: oklch(95% 0.01 250);
+  --accent: #E4CEC2;
+  --accent-foreground: #4E0911;
 }
 
 @layer base {
@@ -177,6 +177,18 @@
     z-index: -1;
     pointer-events: none;
     animation: aurora 30s linear infinite;
+  }
+  .noise-bg {
+    position: relative;
+  }
+  .noise-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 

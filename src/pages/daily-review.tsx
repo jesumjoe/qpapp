@@ -8,6 +8,7 @@ import { evaluateAnswer, getDetailedAnswer, EvaluationResult } from "@/lib/gemin
 import { updateQuestionSrs } from "@/lib/srs";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DailyReview() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -116,69 +117,80 @@ export default function DailyReview() {
         <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }}></div>
       </div>
 
-      <main className="flex-1 flex flex-col items-center p-4 md:p-8 max-w-4xl mx-auto w-full gap-8">
-        <div className="w-full max-w-3xl">
-          <div className="bg-card border border-card-border rounded-2xl p-6 md:p-10 shadow-sm relative">
-            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-4 md:translate-x-1/2">
-              <div className="bg-secondary text-secondary-foreground font-bold text-lg px-4 py-2 rounded-xl shadow-md">
-                {question.marks} Marks
-              </div>
-            </div>
-            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">Question</h3>
-            <p className="text-xl md:text-2xl text-foreground font-medium whitespace-pre-wrap">{question.questionText}</p>
-          </div>
-        </div>
-
-        {!showAnswer ? (
-          <div className="w-full max-w-3xl space-y-4">
-            <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-4">
-              <h4 className="text-sm font-bold flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" /> Practice Answer
-              </h4>
-              <Textarea 
-                placeholder="Type your answer here..."
-                className="min-h-[120px] bg-background"
-                value={userAnswerText}
-                onChange={(e) => setUserAnswerText(e.target.value)}
-              />
-              <div className="flex justify-end gap-3">
-                <Button variant="ghost" onClick={() => setShowAnswer(true)}>Skip to Answer</Button>
-                <Button onClick={handleAiEvaluate} disabled={isEvaluating || !userAnswerText.trim()}>
-                  {isEvaluating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-                  Evaluate with AI
-                </Button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="w-full max-w-3xl space-y-6 animate-in fade-in duration-500">
-             {aiEvaluation && (
-              <div className="bg-secondary/10 border border-secondary/30 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-bold text-secondary-foreground flex items-center">
-                    <Sparkles className="mr-2 w-4 h-4" /> AI Evaluation
-                  </h3>
-                  <div className="text-xl font-bold text-secondary">{aiEvaluation.marksObtained} / {question.marks}</div>
+      <main className="flex-1 flex flex-col items-center p-4 md:p-8 max-w-4xl mx-auto w-full gap-8 overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={currentIdx}
+            initial={{ opacity: 0, x: 20, filter: "blur(5px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, x: -20, filter: "blur(5px)" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="w-full flex flex-col items-center gap-8"
+          >
+            <div className="w-full max-w-3xl">
+              <div className="bg-card border border-card-border rounded-2xl p-6 md:p-10 shadow-sm relative">
+                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-4 md:translate-x-1/2">
+                  <div className="bg-secondary text-secondary-foreground font-bold text-lg px-4 py-2 rounded-xl shadow-md">
+                    {question.marks} Marks
+                  </div>
                 </div>
-                <p className="italic">"{aiEvaluation.feedback}"</p>
+                <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">Question</h3>
+                <p className="text-xl md:text-2xl text-foreground font-medium whitespace-pre-wrap">{question.questionText}</p>
+              </div>
+            </div>
+
+            {!showAnswer ? (
+              <div className="w-full max-w-3xl space-y-4">
+                <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-4">
+                  <h4 className="text-sm font-bold flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-primary" /> Practice Answer
+                  </h4>
+                  <Textarea 
+                    placeholder="Type your answer here..."
+                    className="min-h-[120px] bg-background"
+                    value={userAnswerText}
+                    onChange={(e) => setUserAnswerText(e.target.value)}
+                  />
+                  <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-4">
+                    <Button variant="ghost" className="w-full sm:w-auto" onClick={() => setShowAnswer(true)}>Skip to Answer</Button>
+                    <Button className="w-full sm:w-auto" onClick={handleAiEvaluate} disabled={isEvaluating || !userAnswerText.trim()}>
+                      {isEvaluating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                      Evaluate with AI
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="w-full max-w-3xl space-y-6 animate-in fade-in zoom-in-95 duration-500">
+                 {aiEvaluation && (
+                  <div className="bg-secondary/10 border border-secondary/30 rounded-2xl p-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-bold text-secondary-foreground flex items-center">
+                        <Sparkles className="mr-2 w-4 h-4" /> AI Evaluation
+                      </h3>
+                      <div className="text-xl font-bold text-secondary">{aiEvaluation.marksObtained} / {question.marks}</div>
+                    </div>
+                    <p className="italic">"{aiEvaluation.feedback}"</p>
+                  </div>
+                )}
+                <div className="bg-muted/30 border border-border rounded-2xl p-6">
+                  <h3 className="text-sm font-bold text-primary uppercase tracking-wider mb-2">Reference Answer</h3>
+                  <p className="text-lg">{question.answerText}</p>
+                </div>
               </div>
             )}
-            <div className="bg-muted/30 border border-border rounded-2xl p-6">
-              <h3 className="text-sm font-bold text-primary uppercase tracking-wider mb-2">Reference Answer</h3>
-              <p className="text-lg">{question.answerText}</p>
-            </div>
-          </div>
-        )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur border-t border-border p-4 shadow-lg">
+      <footer className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur border-t border-border p-4 shadow-lg z-50">
         <div className="max-w-4xl mx-auto">
           {showAnswer ? (
-            <div className="flex items-center gap-2">
-              <Button variant="outline" className="flex-1 text-destructive" onClick={() => handleAnswer(0)}>Again</Button>
-              <Button variant="outline" className="flex-1 text-amber-600" onClick={() => handleAnswer(3)}>Hard</Button>
-              <Button variant="outline" className="flex-1 text-primary" onClick={() => handleAnswer(4)}>Good</Button>
-              <Button className="flex-1 bg-secondary text-secondary-foreground" onClick={() => handleAnswer(5)}>Easy</Button>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+              <Button variant="outline" className="w-full text-destructive" onClick={() => handleAnswer(0)}>Again</Button>
+              <Button variant="outline" className="w-full text-amber-600" onClick={() => handleAnswer(3)}>Hard</Button>
+              <Button variant="outline" className="w-full text-primary" onClick={() => handleAnswer(4)}>Good</Button>
+              <Button className="w-full bg-secondary text-secondary-foreground" onClick={() => handleAnswer(5)}>Easy</Button>
             </div>
           ) : (
             <div className="flex justify-center">

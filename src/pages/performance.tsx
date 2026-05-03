@@ -22,14 +22,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
+  hidden: { y: 40, opacity: 0, scale: 0.9 },
   visible: {
     y: 0,
     opacity: 1,
+    scale: 1,
     transition: {
       type: "spring" as const,
-      stiffness: 100,
-      damping: 15
+      stiffness: 80,
+      damping: 12,
+      mass: 0.8
     }
   }
 };
@@ -162,9 +164,9 @@ export default function PerformancePage() {
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="p-3 bg-primary/10 rounded-2xl text-primary">
-                <TrendingUp size={28} />
+                <TrendingUp size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <h1 className="text-5xl font-bold font-serif tracking-tight">Analytics</h1>
+              <h1 className="text-4xl sm:text-5xl font-bold font-serif tracking-tight">Analytics</h1>
             </div>
             <p className="text-muted-foreground text-lg font-medium ml-1">
               Deep insights into your academic retention.
@@ -402,6 +404,9 @@ function StatCard({
   return (
     <motion.div 
       variants={itemVariants}
+      whileHover={{ y: -8, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
       className="bento-card p-8 group"
     >
       <div className="flex items-center gap-3 text-primary/60 mb-6 font-bold uppercase tracking-widest text-[10px]">

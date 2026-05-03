@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="relative min-h-screen w-full flex bg-background/50 overflow-hidden">
+      <div className="relative min-h-screen w-full flex bg-background/50 overflow-hidden noise-bg">
         {/* Aurora Background */}
         <div className="aurora-bg" />
         
@@ -99,11 +99,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-4">
               <SidebarTrigger />
               <div className="h-4 w-px bg-border group-data-[collapsible=icon]:hidden" />
-              <div className="relative group-data-[collapsible=icon]:hidden">
+              <div className="relative hidden sm:block group-data-[collapsible=icon]:hidden">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                 <input 
                   placeholder="Quick search..." 
-                  className="bg-muted/30 border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-1 focus:ring-primary/20 transition-all outline-none"
+                  className="bg-muted/30 border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-48 lg:w-64 focus:ring-1 focus:ring-primary/20 transition-all outline-none"
                 />
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </header>
           
-          <main className="flex-1 overflow-y-auto overflow-x-hidden p-6 lg:p-10">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10">
             <AnimatePresence mode="wait">
               <PageTransition>
                 {children}
