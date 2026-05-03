@@ -1,22 +1,36 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compileOnSave": false,
-  "files": [],
-  "references": [
-    {
-      "path": "./lib/db"
-    },
-    {
-      "path": "./lib/api-client-react"
-    },
-    {
-      "path": "./lib/api-zod"
-    },
-    {
-      "path": "./lib/integrations-openai-ai-server"
-    },
-    {
-      "path": "./lib/object-storage-web"
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@workspace/db": ["./server/db/index.ts"],
+      "@workspace/db/*": ["./server/db/*"],
+      "@workspace/api-zod": ["./server/api/index.ts"],
+      "@workspace/api-zod/*": ["./server/api/*"],
+      "@workspace/integrations-openai-ai-server": ["./server/integrations/openai/index.ts"],
+      "@workspace/integrations-openai-ai-server/*": ["./server/integrations/openai/*"],
+      "@workspace/api-client-react": ["./src/api/index.ts"],
+      "@workspace/api-client-react/*": ["./src/api/*"],
+      "@workspace/object-storage-web": ["./src/lib/object-storage/index.ts"],
+      "@workspace/object-storage-web/*": ["./src/lib/object-storage/*"]
     }
-  ]
+  },
+  "include": ["src", "server", "vite.config.ts"],
+  "exclude": ["node_modules"]
 }
