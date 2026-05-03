@@ -226,17 +226,17 @@ export default function Dashboard() {
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="col-span-full"
+                    className="col-span-full w-full"
                   >
-                    <div className="p-24 text-center glass rounded-[3rem] border-dashed border-primary/20 group hover:border-primary/40 transition-colors">
-                      <div className="w-24 h-24 bg-primary/5 text-primary/20 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500">
-                        <Plus size={48} />
+                    <div className="p-8 sm:p-12 md:p-24 text-center glass rounded-[3rem] border-dashed border-primary/20 group hover:border-primary/40 transition-colors w-full overflow-hidden">
+                      <div className="w-20 h-20 md:w-24 md:h-24 bg-primary/5 text-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500">
+                        <Plus className="w-10 h-10 md:w-12 md:h-12" />
                       </div>
-                      <h3 className="text-4xl font-bold font-serif mb-4">Empty Workspace</h3>
-                      <p className="text-muted-foreground mb-10 max-w-sm mx-auto leading-relaxed text-lg font-medium">
+                      <h3 className="text-3xl md:text-4xl font-bold font-serif mb-4">Empty Workspace</h3>
+                      <p className="text-muted-foreground mb-8 md:mb-10 max-w-sm mx-auto leading-relaxed text-base md:text-lg font-medium">
                         Begin your organized academic journey by creating your first binder.
                       </p>
-                      <Button onClick={() => setIsDialogOpen(true)} size="lg" className="rounded-full px-12 h-14 text-lg font-bold shadow-2xl shadow-primary/20 hover:scale-105 transition-all">
+                      <Button onClick={() => setIsDialogOpen(true)} size="lg" className="rounded-full px-8 md:px-12 h-14 text-base md:text-lg font-bold shadow-2xl shadow-primary/20 hover:scale-105 transition-all w-full sm:w-auto">
                         <Plus className="mr-2" size={24} /> Create Binder
                       </Button>
                     </div>
@@ -288,14 +288,14 @@ function CreateGradeDialog({ open, onOpenChange }: { open: boolean; onOpenChange
         <motion.div 
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="p-10 space-y-10 glass"
+          className="p-6 sm:p-10 space-y-8 sm:space-y-10 glass max-h-[90vh] overflow-y-auto"
         >
           <DialogHeader>
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4">
               <GraduationCap size={24} />
             </div>
-            <DialogTitle className="font-serif text-4xl tracking-tighter">New Binder</DialogTitle>
-            <p className="text-muted-foreground text-lg font-medium">Define your academic scope.</p>
+            <DialogTitle className="font-serif text-3xl sm:text-4xl tracking-tighter">New Binder</DialogTitle>
+            <p className="text-muted-foreground text-base sm:text-lg font-medium">Define your academic scope.</p>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-6">
@@ -322,10 +322,10 @@ function CreateGradeDialog({ open, onOpenChange }: { open: boolean; onOpenChange
               </div>
             </div>
             <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
-              <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="rounded-2xl h-14 px-8 font-bold text-lg">
+              <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="rounded-2xl h-14 px-8 font-bold text-lg w-full sm:w-auto">
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting || !name || !level} className="rounded-2xl h-14 px-10 font-bold text-lg shadow-xl shadow-primary/20">
+              <Button type="submit" disabled={isSubmitting || !name || !level} className="rounded-2xl h-14 px-10 font-bold text-lg shadow-xl shadow-primary/20 w-full sm:w-auto">
                 {isSubmitting ? "Creating..." : "Establish Binder"}
               </Button>
             </div>
