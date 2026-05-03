@@ -44,7 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* Aurora Background */}
         <div className="aurora-bg" />
         
-        <Sidebar variant="floating" collapsible="icon" className="border-none bg-background/95 backdrop-blur-2xl md:bg-transparent">
+        <Sidebar variant="floating" collapsible="icon" className="border-none">
           <SidebarHeader className="p-4">
             <div className="flex items-center gap-3 px-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
