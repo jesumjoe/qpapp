@@ -38,7 +38,7 @@ const itemVariants = {
 
 export default function Dashboard() {
   const grades = useLiveQuery(() => db.grades.toArray());
-  const dueCount = useLiveQuery(() => 
+  const dueCount = useLiveQuery(() =>
     db.questions.where("nextReviewDate").below(Date.now()).count()
   );
   const isLoading = grades === undefined;
@@ -47,7 +47,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-12">
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-        <motion.div 
+        <motion.div
           initial={{ x: -30, opacity: 0, filter: "blur(10px)" }}
           animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
@@ -59,14 +59,14 @@ export default function Dashboard() {
           </div>
           <div>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold font-serif tracking-tighter leading-none kinetic-text">
-              Workspace
+              Binder
             </h1>
             <p className="text-muted-foreground text-sm sm:text-lg mt-4 max-w-md leading-relaxed font-medium">
               Your personalized academic command center. Organized, insightful, and powered by AI.
             </p>
           </div>
         </motion.div>
-        
+
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -80,7 +80,7 @@ export default function Dashboard() {
         {/* Stats / Quick Info Bento Section */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Daily Review Card */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             initial="hidden"
             animate="visible"
@@ -92,7 +92,7 @@ export default function Dashboard() {
             <div className="absolute -right-8 -bottom-8 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none -rotate-12 translate-x-1/4 scale-150 duration-700">
               <Clock size={160} />
             </div>
-            
+
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 h-full">
               <div className="space-y-3 text-center md:text-left">
                 <div className="inline-flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-widest">
@@ -101,12 +101,12 @@ export default function Dashboard() {
                 </div>
                 <h3 className="text-3xl font-bold font-serif">Daily Review</h3>
                 <p className="text-muted-foreground max-w-xs">
-                  {dueCount !== undefined && dueCount > 0 
+                  {dueCount !== undefined && dueCount > 0
                     ? `You have ${dueCount} items waiting for review. Keep your streak alive!`
                     : "You're all caught up! No items due for review right now."}
                 </p>
               </div>
-              
+
               <Link href="/daily-review">
                 <Button size="lg" className="rounded-full px-10 shadow-2xl shadow-primary/20 bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-300">
                   {dueCount !== undefined && dueCount > 0 ? "Start Review" : "View Schedule"} <ChevronRight className="ml-2" size={20} />
@@ -116,7 +116,7 @@ export default function Dashboard() {
           </motion.div>
 
           {/* Quick Stats Card */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             initial="hidden"
             animate="visible"
@@ -134,7 +134,7 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground mt-1 font-medium">Retention Rate</p>
             </div>
             <div className="mt-6 h-1 w-full bg-secondary/10 rounded-full overflow-hidden">
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: "84%" }}
                 transition={{ duration: 1.5, ease: "easeOut", delay: 1 }}
@@ -152,7 +152,7 @@ export default function Dashboard() {
               Academic Binders
             </h2>
           </div>
-          
+
           {isLoading ? (
             <div className="grid gap-6 md:grid-cols-3">
               {[1, 2, 3].map((i) => (
@@ -160,15 +160,15 @@ export default function Dashboard() {
               ))}
             </div>
           ) : (
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
               {grades?.map((grade, index) => (
-                <motion.div 
-                  key={grade.id} 
+                <motion.div
+                  key={grade.id}
                   variants={itemVariants}
                   whileHover={{ y: -8, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -195,7 +195,7 @@ export default function Dashboard() {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="mt-auto space-y-4">
                           <div>
                             <p className="text-primary/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">{grade.level}</p>
@@ -203,7 +203,7 @@ export default function Dashboard() {
                               {grade.name}
                             </h2>
                           </div>
-                          
+
                           <div className="flex items-center gap-6 text-muted-foreground text-xs font-bold border-t border-border/50 pt-6">
                             <div className="flex items-center gap-2">
                               <Sparkles size={14} className="text-primary/40" />
@@ -220,10 +220,10 @@ export default function Dashboard() {
                   </Link>
                 </motion.div>
               ))}
-              
+
               <AnimatePresence>
                 {(!grades || grades.length === 0) && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="col-span-full w-full"
@@ -259,7 +259,7 @@ function CreateGradeDialog({ open, onOpenChange }: { open: boolean; onOpenChange
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !level) return;
-    
+
     setIsSubmitting(true);
     try {
       await db.grades.add({
@@ -285,7 +285,7 @@ function CreateGradeDialog({ open, onOpenChange }: { open: boolean; onOpenChange
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px] rounded-[2.5rem] border-none shadow-2xl overflow-hidden p-0 bg-transparent">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           className="p-6 sm:p-10 space-y-8 sm:space-y-10 glass max-h-[90vh] overflow-y-auto"
